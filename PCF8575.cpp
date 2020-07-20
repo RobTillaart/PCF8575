@@ -2,13 +2,13 @@
 //    FILE: PCF8575.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.0.1
+// VERSION: 0.0.2
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
 // HISTORY:
 // 0.0.1   2020-07-20 initial version
-//
+// 0.0.2   2020-07-21 fix reverse(); refactor;
 
 #include "PCF8575.h"
 
@@ -52,8 +52,8 @@ void PCF8575::write16(const uint16_t value)
 {
   _dataOut = value;
   Wire.beginTransmission(_address);
-  Wire.write(_dataOut & 0xFF);
-  Wire.write(_dataOut >> 8);
+  Wire.write(_dataOut & 0xFF);      // low 8 bits
+  Wire.write(_dataOut >> 8);        // high 8 bits
   _error = Wire.endTransmission();
 }
 
@@ -141,10 +141,10 @@ void PCF8575::rotateLeft(const uint8_t n)
 void PCF8575::reverse() // quite fast
 {
   uint8_t x = _dataOut;
-  x = (((x & 0xaaaa) >> 1) | ((x & 0x5555) << 1));
-  x = (((x & 0xcccc) >> 2) | ((x & 0x3333) << 2));
-  x =            ((x >> 4) | (x << 4));
-  x =            ((x >> 8) | (x << 8));
+  x = (((x & 0xAAAA) >> 1) | ((x & 0x5555) << 1));
+  x = (((x & 0xCCCC) >> 2) | ((x & 0x3333) << 2));
+  x = (((x & 0xF0F0) >> 4) | ((x & 0x0F0F) << 4));
+  x = (((x & 0xFF00) >> 8) | ((x & 0x00FF) << 8));
   PCF8575::write16(x);
 }
 
@@ -159,7 +159,7 @@ uint16_t PCF8575::readButton16(const uint16_t mask)
 }
 
 //added 0.1.07 Septillion
-uint16_t PCF8575::readButton(const uint8_t pin)
+uint8_t PCF8575::readButton(const uint8_t pin)
 {
   if (pin > 15)
   {
