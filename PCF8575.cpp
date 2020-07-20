@@ -12,13 +12,14 @@
 
 #include "PCF8575.h"
 
+
 PCF8575::PCF8575(const uint8_t deviceAddress)
 {
-    _address = deviceAddress;
-    _dataIn = 0;
-    _dataOut = 0xFFFF;
-    _buttonMask = 0xFFFF;
-    _error = PCF8575_OK;
+  _address = deviceAddress;
+  _dataIn = 0;
+  _dataOut = 0xFFFF;
+  _buttonMask = 0xFFFF;
+  _error = PCF8575_OK;
 }
 
 #if defined (ESP8266) || defined(ESP32)
@@ -40,10 +41,10 @@ uint16_t PCF8575::read16()
   if (Wire.requestFrom(_address, (uint8_t)2) != 2)
   {
     _error = PCF8575_I2C_ERROR;
-    return _dataIn; // last value
+    return _dataIn;                 // last value
   }
-  _dataIn = Wire.read() << 8;
-  _dataIn |= Wire.read();
+  _dataIn = Wire.read();            // low 8 bits
+  _dataIn |= (Wire.read() << 8);    // high 8 bits
   return _dataIn;
 }
 
@@ -51,8 +52,8 @@ void PCF8575::write16(const uint16_t value)
 {
   _dataOut = value;
   Wire.beginTransmission(_address);
-  Wire.write(_dataOut);
-  Wire.write(_dataOut);
+  Wire.write(_dataOut & 0xFF);
+  Wire.write(_dataOut >> 8);
   _error = Wire.endTransmission();
 }
 
