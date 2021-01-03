@@ -59,7 +59,7 @@ unittest(test_begin)
 
   PCF.begin();
 
-  int readValue = PCF.read8();
+  int readValue = PCF.read16();
   assertEqual(0, readValue);
 
   int expect = PCF8575_I2C_ERROR;
@@ -84,7 +84,7 @@ unittest(test_read)
   }
 
   fprintf(stderr, "test PCF8575_PIN_ERROR ");
-  readValue = PCF.read(8);
+  readValue = PCF.read(16);
   assertEqual(0, readValue);
   int expect = PCF8575_PIN_ERROR;
   assertEqual(expect, PCF.lastError());
