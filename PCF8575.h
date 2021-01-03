@@ -3,7 +3,7 @@
 //    FILE: PCF8575.h
 //  AUTHOR: Rob Tillaart
 //    DATE: 2020-07-20
-// VERSION: 0.0.3
+// VERSION: 0.1.0
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
@@ -14,12 +14,11 @@
 #include "Arduino.h"
 #include "Wire.h"
 
-#define PCF8575_LIB_VERSION      "0.0.3"
+#define PCF8575_LIB_VERSION      (F("0.1.0"))
 
 #ifndef PCF8575_INITIAL_VALUE
 #define PCF8575_INITIAL_VALUE    0xFFFF
 #endif
-
 
 #define PCF8575_OK               0x00
 #define PCF8575_PIN_ERROR        0x81
@@ -30,12 +29,12 @@ class PCF8575
 {
 public:
   // deviceAddress base = 0x20 + depends on address bits
-  explicit PCF8575(const uint8_t deviceAddress);
+  explicit PCF8575(const uint8_t deviceAddress, TwoWire *wire = &Wire);
 
 #if defined (ESP8266) || defined(ESP32)
-  void     begin(uint8_t sda, uint8_t scl, uint16_t val = PCF8575_INITIAL_VALUE);
+  bool     begin(uint8_t sda, uint8_t scl, uint16_t val = PCF8575_INITIAL_VALUE);
 #endif
-  void     begin(uint16_t val = PCF8575_INITIAL_VALUE);
+  bool     begin(uint16_t val = PCF8575_INITIAL_VALUE);
   bool     isConnected();
 
   uint16_t read16();
@@ -48,7 +47,7 @@ public:
 
   //  added 0.1.07/08 Septillion
   uint16_t readButton16()  { return readButton16(_buttonMask); }
-  uint16_t readButton16(const uint16_t mask = 0xFFFF);
+  uint16_t readButton16(const uint16_t mask);
   uint8_t  readButton(const uint8_t pin);
   void     setButtonMask(uint16_t mask) { _buttonMask = mask; };
 
@@ -69,6 +68,8 @@ private:
   uint16_t _dataOut;
   uint16_t _buttonMask;
   int      _error;
+
+  TwoWire*  _wire;
 };
 
 // -- END OF FILE --

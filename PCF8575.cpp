@@ -6,62 +6,76 @@
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
-// HISTORY:
-// 0.0.1   2020-07-20 initial version
-// 0.0.2   2020-07-21 fix reverse(); refactor;
-// 0.0.3   2020-07-29 fix #5 reverse() + refactor.
+//  HISTORY:
+//  0.0.1  2020-07-20  initial version
+//  0.0.2  2020-07-21  fix reverse(); refactor;
+//  0.0.3  2020-07-29  fix #5 reverse() + refactor.
+//  0.1.0  2021-01-03  add Arduino-CI + unit tests
+
 
 #include "PCF8575.h"
 
 
-PCF8575::PCF8575(const uint8_t deviceAddress)
+PCF8575::PCF8575(const uint8_t deviceAddress, TwoWire *wire)
 {
-  _address = deviceAddress;
-  _dataIn = 0;
-  _dataOut = 0xFFFF;
+  _address    = deviceAddress;
+  _wire       = wire;
+  _dataIn     = 0;
+  _dataOut    = 0xFFFF;
   _buttonMask = 0xFFFF;
-  _error = PCF8575_OK;
+  _error      = PCF8575_OK;
 }
 
 #if defined (ESP8266) || defined(ESP32)
-void PCF8575::begin(uint8_t sda, uint8_t scl, uint16_t val)
+bool PCF8575::begin(uint8_t dataPin, uint8_t clockPin, uint16_t val)
 {
-  Wire.begin(sda, scl);
+  _wire      = &Wire;
+  if ((dataPin < 255) && (clockPin < 255))
+  {
+    _wire->begin(dataPin, clockPin);
+  } else {
+    _wire->begin();
+  }
+  if (! isConnected()) return false;
   PCF8575::write16(val);
+  return true;
 }
 #endif
 
-void PCF8575::begin(uint16_t val)
+
+bool PCF8575::begin(uint16_t val)
 {
-  Wire.begin();
+  _wire->begin();
+  if (! isConnected()) return false;
   PCF8575::write16(val);
+  return true;
 }
 
 bool PCF8575::isConnected()
 {
-  Wire.beginTransmission(_address);
-  return Wire.endTransmission() == 0;
+  _wire->beginTransmission(_address);
+  return ( _wire->endTransmission() == 0);
 }
 
 uint16_t PCF8575::read16()
 {
-  if (Wire.requestFrom(_address, (uint8_t)2) != 2)
+  if (_wire->requestFrom(_address, (uint8_t)2) != 2)
   {
     _error = PCF8575_I2C_ERROR;
-    return _dataIn;                 // last value
+    return _dataIn; // last value
   }
-  _dataIn = Wire.read();            // low 8 bits
-  _dataIn |= (Wire.read() << 8);    // high 8 bits
+  _dataIn = _wire->read();            // low 8 bits
+  _dataIn |= (_wire->read() << 8);    // high 8 bits
   return _dataIn;
 }
 
 void PCF8575::write16(const uint16_t value)
 {
   _dataOut = value;
-  Wire.beginTransmission(_address);
-  Wire.write(_dataOut & 0xFF);      // low 8 bits
-  Wire.write(_dataOut >> 8);        // high 8 bits
-  _error = Wire.endTransmission();
+  _wire->beginTransmission(_address);
+  _wire->write(_dataOut & 0xFF);      // low 8 bits
+  _wire->write(_dataOut >> 8);        // high 8 bits
+  _error = _wire->endTransmission();
 }
 
 uint8_t PCF8575::read(const uint8_t pin)
@@ -105,22 +119,23 @@ void PCF8575::toggle(const uint8_t pin)
 
 void PCF8575::toggleMask(const uint16_t mask)
 {
-  PCF8575::write16(_dataOut ^ mask);
+  _dataOut ^= mask;
+  PCF8575::write16(_dataOut);
 }
 
 void PCF8575::shiftRight(const uint8_t n)
 {
   if ((n == 0) || (_dataOut == 0)) return;
-  if (n > 15) _dataOut = 0;       // shift 8++ clears all, valid...
-  else _dataOut >>= n;            // only shift if there are bits set
+  if (n > 15)         _dataOut = 0;    // shift 8++ clears all, valid...
+  if (_dataOut != 0) _dataOut >>= n;   // only shift if there are bits set
   PCF8575::write16(_dataOut);
 }
 
 void PCF8575::shiftLeft(const uint8_t n)
 {
   if ((n == 0) || (_dataOut == 0)) return;
-  if (n > 15) _dataOut = 0;       // shift 8++ clears all, valid...
-  else _dataOut <<= n;            // only shift if there are bits set
+  if (n > 15)        _dataOut = 0;    // shift 8++ clears all, valid...
+  if (_dataOut != 0) _dataOut <<= n;  // only shift if there are bits set
   PCF8575::write16(_dataOut);
 }
 

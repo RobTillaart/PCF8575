@@ -1,3 +1,9 @@
+
+[![Arduino CI](https://github.com/RobTillaart/PCF8575/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCF8575/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/PCF8575.svg?maxAge=3600)](https://github.com/RobTillaart/PCF8575/releases)
+
+
 # PCF8575
 
 Arduino library for PCF8575 - 16 channel I2C IO expander
@@ -34,7 +40,8 @@ However when performance is neede you can try to overclock the chip.
 the include of "pcf8575.h" to overrule the default value used with the 
 **begin()** call.
 
-- **PCF8575(deviceAddress)** Constructor with I2C device address as parameter.
+- **PCF8575(deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,
+and optional the Wire interface as parameter.
 - **begin(val = PCF8575_INITIAL_VALUE)** set the initial value for the pins and masks.
 - **begin(sda, scl, val = PCF8575_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins
 What needs to be added in the future is a parameter to choose another Wire interface
@@ -48,10 +55,10 @@ in the class this is faster than reread the pins.
 - **valueOut()** returns the last written data. 
 - **setButtonMask(mask)** 
 - **readButton16()**
-- **readButton16(mask = 0xFFFF)**
+- **readButton16(mask)**
 - **readButton(pin)**
 - **toggle(pin)** toggles a single pin
-- **toggleMask(mask = 0xFFFF)** toggles a selection of pins, 
+- **toggleMask(mask)** toggles a selection of pins, 
 if you want to invert all pins use 0xFFFF (default value)
 - **shiftRight(n = 1)** shifts output channels n pins (default 1) pins right (e.g. leds ). 
 Fills the higher lines with zero's.
@@ -60,11 +67,19 @@ Fills the lower lines with zero's.
 - **rotateRight(n = 1)** rotates output channels to right, moving lowest line to highest line.
 - **rotateLeft(n = 1)** rotates output channels to left, moving highest line to lowest line.
 - **reverse()** revers the "bit pattern" of the lines, high to low and vice versa.
+- **lastError()** returns the last error from the lib. (see .h file)
+
+## Error codes
+
+| name  | value | description |
+|:------|:----:|:----|
+| PCF8574_OK         | 0x00 | no error
+| PCF8574_PIN_ERROR  | 0x81 | pin number out of range |
+| PCF8574_I2C_ERROR  | 0x82 | I2C communication error |
 
 ## Testing
 
 Testing the initial library is done by Colin Mackay (thanks!).
-
 Platforms used for testing include: Nano, ESP32 and Seeed Xiao
 
 
