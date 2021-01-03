@@ -53,7 +53,7 @@ unittest_teardown()
 
 unittest(test_begin)
 {
-  fprintf(stderr, "VERSION: %s\n", PCF8574_LIB_VERSION);
+  fprintf(stderr, "VERSION: %s\n", PCF8575_LIB_VERSION);
 
   PCF8575 PCF(0x38);
 
@@ -75,14 +75,15 @@ unittest(test_read)
   PCF.begin();
   for (int i = 0; i < 8; i++)
   {
-    fprintf(stderr, "line %d\t", i);
+    fprintf(stderr, "line %d\n", i);
     readValue = PCF.read(i);
     assertEqual(0, readValue);
 
     int expect = PCF8575_I2C_ERROR;
     assertEqual(expect, PCF.lastError());
   }
-  printf("test");
+
+  fprintf(stderr, "test PCF8575_PIN_ERROR ");
   readValue = PCF.read(8);
   assertEqual(0, readValue);
   int expect = PCF8575_PIN_ERROR;
