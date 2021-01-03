@@ -83,7 +83,7 @@ unittest(test_read)
     assertEqual(expect, PCF.lastError());
   }
 
-  fprintf(stderr, "test PCF8575_PIN_ERROR ");
+  fprintf(stderr, "test PCF8575_PIN_ERROR\n");
   readValue = PCF.read(16);
   assertEqual(0, readValue);
   int expect = PCF8575_PIN_ERROR;
