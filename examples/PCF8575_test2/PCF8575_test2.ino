@@ -9,7 +9,7 @@
 #include "PCF8575.h"
 
 // adjust addresses if needed
-PCF8574 PCF(0x39);  // add leds to lines      (used as output)
+PCF8575 PCF(0x39);  // add leds to lines      (used as output)
 
 void setup()
 {

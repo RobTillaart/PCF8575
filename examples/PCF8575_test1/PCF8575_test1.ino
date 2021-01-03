@@ -9,8 +9,8 @@
 #include "PCF8575.h"
 
 // adjust addresses if needed
-PCF8574 PCF_38(0x38);  // add switches to lines  (used as input)
-PCF8574 PCF_39(0x39);  // add leds to lines      (used as output)
+PCF8575 PCF_38(0x38);  // add switches to lines  (used as input)
+PCF8575 PCF_39(0x39);  // add leds to lines      (used as output)
 
 void setup()
 {

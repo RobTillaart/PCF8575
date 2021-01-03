@@ -9,7 +9,7 @@
 #include "PCF8575.h"
 
 // adjust addresses if needed
-PCF8574 PCF(0x39);
+PCF8575 PCF(0x39);
 
 void setup()
 {
