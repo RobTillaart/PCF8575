@@ -10,7 +10,7 @@ Arduino library for PCF8575 - 16 channel I2C IO expander
 
 ## Description
 
-The library is based upon the PCF8574 library  https://github.com/RobTillaart/PCF8574
+Related to the PCF8574 8 channel IO expander library  https://github.com/RobTillaart/PCF8574
 
 The library gives easy control over the 16 pins of the PCF8575 chips.
 
@@ -22,17 +22,20 @@ Base address = 0x20 + 0..7 depending on address pins A0..A2
 |       |     |    |
 
 So you can connect up to 8 PCF8575 on one I2C bus, giving access 
-to 8 x 16 = 128 IO lines. Be sure to have a well dimensioned power supply.
+to 8 x 16 = 128 IO lines. 
+To maximize IO lines combine 8 x PCF8575 + 8 x PCF8574A giving
+128 + 64 = 192 IO lines. 
+Be sure to have a well dimensioned power supply.
 
 The library allows to read and write both single pins or 16 pins at once.
-Furthermore some additional functions are implemented that are a little more
-playfull but still are useful.
+Furthermore some additional functions are implemented that are 
+playfull but useful.
 
 ## I2C Clock
 
 Testing showed that the PCF8575 still works at 600 KHz and failed at 800 KHz.
 These values are outside the specs of the datasheet so they are not recommendend.
-However when performance is neede you can try to overclock the chip. 
+However when performance is needed you can try to overclock the chip. 
 
 ## Interface
 
