@@ -62,14 +62,14 @@ bool PCF8575::isConnected()
 }
 
 
-bool PCF8574::setAddress(const uint8_t deviceAddress)
+bool PCF8575::setAddress(const uint8_t deviceAddress)
 {
   _address = deviceAddress;
   return isConnected();
 }
 
 
-uint8_t PCF8574::getAddress()
+uint8_t PCF8575::getAddress()
 {
   return _address;
 }
