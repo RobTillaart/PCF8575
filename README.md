@@ -8,16 +8,16 @@
 
 # PCF8575
 
-Arduino library for PCF8575 - 16 channel I2C IO expander
+Arduino library for PCF8575 - 16 channel I2C IO expander.
 
 
 ## Description
 
-Related to the PCF8574 8 channel IO expander library  https://github.com/RobTillaart/PCF8574
+Related to the PCF8574 8 channel IO expander library  https://github.com/RobTillaart/PCF8574.
 
 The library gives easy control over the 16 pins of the PCF8575 chips.
 
-Base address = 0x20 + 0..7 depending on address pins A0..A2
+Base address = 0x20 + 0..7 depending on address pins A0..A2.
 
 | TYPE     | ADDRESS-RANGE | notes                    |
 |:---------|:-------------:|:------------------------:|
@@ -32,8 +32,7 @@ To maximize IO lines combine 8 x PCF8575 + 8 x PCF8574A giving
 Be sure to have a well dimensioned power supply.
 
 The library allows to read and write both single pins or 16 pins at once.
-Furthermore some additional functions are implemented that are 
-playful but useful.
+Furthermore some additional functions are implemented that are playful and useful.
 
 
 ## I2C Clock
@@ -55,10 +54,9 @@ the include of "pcf8575.h" to overrule the default value used with the
 - **PCF8575(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,
 and optional the Wire interface as parameter.
 - **bool begin(uint8_t val = PCF8575_INITIAL_VALUE)** set the initial value for the pins and masks.
-- **bool begin(uint8_t sda, uint8_t scl, uint8_t val = PCF8575_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins
-What needs to be added in the future is a parameter to choose another Wire interface
-as some processors have multiple hardware Wire interfaces.
-- **bool isConnected()** checks if the address is visible on the I2C bus
+- **bool begin(uint8_t sda, uint8_t scl, uint8_t val = PCF8575_INITIAL_VALUE)** idem, 
+for the ESP32 where one can choose the I2C pins.
+- **bool isConnected()** checks if the address is visible on the I2C bus.
 - **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
 Can be used to switch between PCF8575 modules runtime. Note this corrupts internal buffered values, 
 so one might need to call **read16()** and/or **write16()**. Returns true if address can be found on I2C bus.
@@ -68,11 +66,11 @@ so one might need to call **read16()** and/or **write16()**. Returns true if add
 ### Read and Write
 
 - **uint16_t read16()** reads all 16 pins at once. This one does the actual reading.
-- **uint8_t read(uint8_t pin)** reads a single pin; pin = 0..15
+- **uint8_t read(uint8_t pin)** reads a single pin; pin = 0..15.
 - **uint16_t value()** returns the last read inputs again, as this information is buffered 
 in the class this is faster than reread the pins.
 - **void write16(uint16_t value)** writes all 16 pins at once. This one does the actual reading.
-- **void write(uint8_t pin, uint8_t value)** writes a single pin; pin = 0..15; value is HIGH(1) or LOW (0)
+- **void write(uint8_t pin, uint8_t value)** writes a single pin; pin = 0..15; value is HIGH(1) or LOW (0).
 - **uint16_t valueOut()** returns the last written data.
 
 
@@ -86,9 +84,9 @@ in the class this is faster than reread the pins.
 
 ### Special
 
-- **void toggle(uint8_t pin)** toggles a single pin
+- **void toggle(uint8_t pin)** toggles a single pin.
 - **void toggleMask(uint16_t mask)** toggles a selection of pins, 
-if you want to invert all pins use 0xFFFF (default value)
+if you want to invert all pins use 0xFFFF (default value).
 - **void shiftRight(uint8_t n = 1)** shifts output channels n pins (default 1) pins right (e.g. leds ). 
 Fills the higher lines with zero's.
 - **void shiftLeft(uint8_t n = 1)**  shifts output channels n pins (default 1) pins left (e.g. leds ).
@@ -100,7 +98,7 @@ Fills the lower lines with zero's.
 
 ### Miscellaneous
 
-- **int lastError()** returns the last error from the lib. (see .h file)
+- **int lastError()** returns the last error from the lib. (see .h file).
 
 
 ## Error codes
@@ -115,16 +113,16 @@ Fills the lower lines with zero's.
 ## Testing
 
 Testing the initial library is done by Colin Mackay (thanks!).
-Platforms used for testing include: Nano, ESP32 and Seeed Xiao
+Platforms used for testing include: Nano, ESP32 and Seeed Xiao.
 
 
 ## Operation
 
-See examples
+See examples.
 
 
 ## Future
 
-- update documentation
-- add documentation specific button section
+- update documentation.
+- add documentation specific button section.
 - 
