@@ -76,6 +76,7 @@ public:
 
   int      lastError();
 
+
 private:
   uint8_t  _address;
   uint16_t _dataIn;
