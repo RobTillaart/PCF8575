@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/PCF8575/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/PCF8575/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/PCF8575/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/PCF8575/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/PCF8575/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/PCF8575/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/PCF8575.svg?maxAge=3600)](https://github.com/RobTillaart/PCF8575/releases)
 
@@ -50,13 +52,13 @@ the include of "pcf8575.h" to overrule the default value used with the
 
 ### Constructor
 
-- **PCF8575(deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,
+- **PCF8575(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,
 and optional the Wire interface as parameter.
-- **begin(val = PCF8575_INITIAL_VALUE)** set the initial value for the pins and masks.
-- **begin(sda, scl, val = PCF8575_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins
+- **bool begin(uint8_t val = PCF8575_INITIAL_VALUE)** set the initial value for the pins and masks.
+- **bool begin(uint8_t sda, uint8_t scl, uint8_t val = PCF8575_INITIAL_VALUE)** idem, for the ESP32 where one can choose the I2C pins
 What needs to be added in the future is a parameter to choose another Wire interface
 as some processors have multiple hardware Wire interfaces.
-- **isConnected()** checks if the address is visible on the I2C bus
+- **bool isConnected()** checks if the address is visible on the I2C bus
 - **bool setAddress(const uint8_t deviceAddress)** sets the device address after construction. 
 Can be used to switch between PCF8575 modules runtime. Note this corrupts internal buffered values, 
 so one might need to call **read16()** and/or **write16()**. Returns true if address can be found on I2C bus.
@@ -65,40 +67,40 @@ so one might need to call **read16()** and/or **write16()**. Returns true if add
 
 ### Read and Write
 
-- **read16()** reads all 16 pins at once. This one does the actual reading.
-- **read(pin)** reads a single pin; pin = 0..15
-- **value()** returns the last read inputs again, as this information is buffered 
+- **uint16_t read16()** reads all 16 pins at once. This one does the actual reading.
+- **uint8_t read(uint8_t pin)** reads a single pin; pin = 0..15
+- **uint16_t value()** returns the last read inputs again, as this information is buffered 
 in the class this is faster than reread the pins.
-- **write16(value)** writes all 16 pins at once. This one does the actual reading.
-- **write(pin, value)** writes a single pin; pin = 0..15; value is HIGH(1) or LOW (0)
-- **valueOut()** returns the last written data.
+- **void write16(uint16_t value)** writes all 16 pins at once. This one does the actual reading.
+- **void write(uint8_t pin, uint8_t value)** writes a single pin; pin = 0..15; value is HIGH(1) or LOW (0)
+- **uint16_t valueOut()** returns the last written data.
 
 
 ### Button
 
-- **setButtonMask(mask)** 
-- **readButton16()**
-- **readButton16(mask)**
-- **readButton(pin)**
+- **void setButtonMask(mask)** 
+- **uint16_t readButton16()**
+- **uint16_t readButton16(uint16_t mask)**
+- **uint8_t readButton(uint8_t pin)**
 
 
 ### Special
 
-- **toggle(pin)** toggles a single pin
-- **toggleMask(mask)** toggles a selection of pins, 
+- **void toggle(uint8_t pin)** toggles a single pin
+- **void toggleMask(uint16_t mask)** toggles a selection of pins, 
 if you want to invert all pins use 0xFFFF (default value)
-- **shiftRight(n = 1)** shifts output channels n pins (default 1) pins right (e.g. leds ). 
+- **void shiftRight(uint8_t n = 1)** shifts output channels n pins (default 1) pins right (e.g. leds ). 
 Fills the higher lines with zero's.
-- **shiftLeft(n = 1)**  shifts output channels n pins (default 1) pins left (e.g. leds ).
+- **void shiftLeft(uint8_t n = 1)**  shifts output channels n pins (default 1) pins left (e.g. leds ).
 Fills the lower lines with zero's.
-- **rotateRight(n = 1)** rotates output channels to right, moving lowest line to highest line.
-- **rotateLeft(n = 1)** rotates output channels to left, moving highest line to lowest line.
-- **reverse()** revers the "bit pattern" of the lines, high to low and vice versa.
+- **void rotateRight(uint8_t n = 1)** rotates output channels to right, moving lowest line to highest line.
+- **void rotateLeft(uint8_t n = 1)** rotates output channels to left, moving highest line to lowest line.
+- **void reverse()** reverse the "bit pattern" of the lines, high to low and vice versa.
 
 
-### Misc
+### Miscellaneous
 
-- **lastError()** returns the last error from the lib. (see .h file)
+- **int lastError()** returns the last error from the lib. (see .h file)
 
 
 ## Error codes
@@ -119,3 +121,10 @@ Platforms used for testing include: Nano, ESP32 and Seeed Xiao
 ## Operation
 
 See examples
+
+
+## Future
+
+- update documentation
+- add documentation specific button section
+- 
