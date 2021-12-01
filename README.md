@@ -76,10 +76,17 @@ in the class this is faster than reread the pins.
 
 ### Button
 
-- **void setButtonMask(mask)** 
-- **uint16_t readButton16()**
-- **uint16_t readButton16(uint16_t mask)**
-- **uint8_t readButton(uint8_t pin)**
+The **"button"** functions are to be used when you mix input and output on one IC.
+It does not change / affect the pins used for output by masking these.
+Typical usage is to call **setButtonMask()** once in setup as pins do not (often) change
+during program execution. 
+
+- **void setButtonMask(const uint16_t mask)** sets the (bit) mask which lines are input.
+- **uint16_t getButtonMask()** returns the set buttonMask.
+- **uint16_t readButton16()** use the mask set by setButtonMask to select specific input pins.
+- **uint16_t readButton16(uint16_t mask)** use a specific mask to select specific input pins.
+Note this can be a subset of the pins set with **setButtonMask()** if one wants to process not all.
+- **uint8_t readButton(uint8_t pin)** read a singe input pin.
 
 
 ### Special
@@ -124,5 +131,4 @@ See examples.
 ## Future
 
 - update documentation.
-- add documentation specific button section.
 - 
