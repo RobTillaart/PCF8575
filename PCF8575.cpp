@@ -13,7 +13,7 @@
 //  0.1.0   2021-01-03  add Arduino-CI + unit tests
 //  0.1.1   2021-04-23  fix for platformIO compatibility
 //  0.1.2   2021-07-09  fix #10 add set/getAddress() function 
-//  0.1.3   2021        update build-CI, readme
+//  0.1.3   2021-12-01  update build-CI, readme
 //                      add getButtonMask()
 
 

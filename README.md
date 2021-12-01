@@ -131,4 +131,4 @@ See examples.
 ## Future
 
 - update documentation.
-- 
+- keep in sync with pcf8574 (as far as meaningful)
