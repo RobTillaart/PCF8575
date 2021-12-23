@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2021-12-13
 // PUPROSE: demo array of PCF - not tested
-//
+
 
 #include "PCF8575.h"
 
@@ -27,6 +27,7 @@ void setup()
     PCF[i].begin();
   }
 }
+
 
 void loop()
 {
@@ -52,3 +53,4 @@ void loop()
 
 
 // -- END OF FILE --
+
