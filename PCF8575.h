@@ -7,8 +7,6 @@
 // PURPOSE: Arduino library for PCF8575 - 16 channel I2C IO expander
 //     URL: https://github.com/RobTillaart/PCF8575
 //
-// HISTORY: see CHANGELOG.md
-//
 
 
 #include "Arduino.h"
