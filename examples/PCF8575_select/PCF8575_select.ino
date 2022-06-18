@@ -2,7 +2,7 @@
 //    FILE: PCF8575_select.ino
 //  AUTHOR: Rob Tillaart
 //    DATE: 2022-06-18
-// PUPROSE: demo PCF8574 library select functions
+// PUPROSE: demo PCF8575 library select functions
 
 
 
@@ -17,8 +17,8 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println(__FILE__);
-  Serial.print("PCF8574_LIB_VERSION:\t");
-  Serial.println(PCF8574_LIB_VERSION);
+  Serial.print("PCF8575_LIB_VERSION:\t");
+  Serial.println(PCF8575_LIB_VERSION);
 
   PCF.begin();
   Serial.println(PCF.isConnected());

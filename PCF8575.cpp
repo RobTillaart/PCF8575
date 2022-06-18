@@ -224,7 +224,7 @@ uint8_t PCF8575::readButton(const uint8_t pin)
 void PCF8575::select(const uint8_t pin)
 {
   uint16_t n = 0x0000;
-  if (pin < 16) n = 1 << pin;
+  if (pin < 16) n = 1L << pin;
   write16(n);
 };
 
@@ -232,7 +232,7 @@ void PCF8575::select(const uint8_t pin)
 void PCF8575::selectN(const uint8_t pin) 
 {
   uint16_t n = 0xFFFF;
-  if (pin < 16) n = (2 << pin) - 1;
+  if (pin < 16) n = (2L << pin) - 1;
   write16(n);
 };
 

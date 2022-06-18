@@ -74,8 +74,8 @@ public:
 
   void    select(const uint8_t pin);
   void    selectN(const uint8_t pin);
-  void    selectNone() { write8(0x00)};
-  void    selectAll()  { write8(0xFF)};
+  void    selectNone() { write16(0x0000)};
+  void    selectAll()  { write16(0xFFFF)};
 
 
   int      lastError();
