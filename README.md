@@ -35,6 +35,18 @@ The library allows to read and write both single pins or 16 pins at once.
 Furthermore some additional functions are implemented that are playful and useful.
 
 
+#### Interrupts
+
+The PCF8575 has an interrupt output line (INT) to notify an MCU that one of the input lines has changed.
+This can be used to prevent active polling of the PCF8575, which can be more efficient.
+
+The library cannot handle the PCF8575 interrupts as it has no code for it. 
+The user should catch the interrupt in his own code and can use the library to see which line has changed.
+
+There is one example to show how interrupts can be used:
+- PCF8575_interrupt.ino
+
+
 ## I2C Clock
 
 Testing showed that the PCF8575 still works at 600 KHz and failed at 800 KHz.
