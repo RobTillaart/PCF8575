@@ -22,8 +22,6 @@ Base address = 0x20 + 0..7 depending on address pins A0..A2.
 | TYPE     | ADDRESS-RANGE | notes                    |
 |:---------|:-------------:|:------------------------:|
 |PCF8575   | 0x20 to 0x27  | same range as PCF8574 !! |
-|          |               |                          |
-
 
 So you can connect up to 8 PCF8575 on one I2C bus, giving access 
 to 8 x 16 = 128 IO lines. 
