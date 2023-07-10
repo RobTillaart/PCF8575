@@ -68,7 +68,18 @@ Testing showed that the PCF8575 still works at 600 KHz and failed at 800 KHz.
 These values are outside the specs of the datasheet so they are not recommended.
 However when performance is needed you can try to overclock the chip. 
 
-TODO table (see PCF8574)
+TODO test to fill the table
+
+| clock speed |  Read  |  Write  |  Notes              |
+|:-----------:|:------:|:-------:|:--------------------|
+|  100000     |        |         |  spec datasheet     |
+|  200000     |        |         |                     |
+|  300000     |        |         |                     |
+|  400000     |        |         |  max advised speed  |
+|  500000     |        |         |  not recommended    |
+|  600000     |        |         |  not recommended    |
+|  700000     |        |         |  not recommended    |
+|  800000     | crash  |  crash  |  not recommended    |
 
 
 ## Interface
