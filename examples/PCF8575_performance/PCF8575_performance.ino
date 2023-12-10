@@ -21,7 +21,7 @@ void setup()
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
 
-  WIre.begin();
+  Wire.begin();
 
   PCF.begin();
   Serial.println(PCF.isConnected());
