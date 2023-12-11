@@ -18,6 +18,8 @@ void setup()
   Serial.print("PCF8575_LIB_VERSION:\t");
   Serial.println(PCF8575_LIB_VERSION);
 
+  Wire.begin();
+
   PCF.begin();
 
   PCF.write(0, 1);
