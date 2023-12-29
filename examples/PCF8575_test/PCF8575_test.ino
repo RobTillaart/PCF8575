@@ -8,7 +8,7 @@
 
 #include "PCF8575.h"
 
-PCF8575 PCF(0x38);
+PCF8575 PCF(0x20);
 
 
 void setup()
